@@ -186,6 +186,8 @@ This guide explains how to install **Helm** (Kubernetes package manager) on Ubun
 
 - A working Ubuntu system
 - `curl` installed (you can install it using `sudo apt install curl`)
+- curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
 
 ---
 
