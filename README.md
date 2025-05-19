@@ -175,6 +175,28 @@ This guide outlines the steps needed to set up a Kubernetes cluster using `kubea
 
 ---
 
+
+# Install Helm on Ubuntu (Method 1)
+
+This guide explains how to install **Helm** (Kubernetes package manager) on Ubuntu using the official installation script.
+
+---
+
+## Prerequisites
+
+- A working Ubuntu system
+- `curl` installed (you can install it using `sudo apt install curl`)
+
+---
+
+## Installation Steps
+
+Run the following command in your terminal:
+
+```bash
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+
 ## Verify Cluster Connection
 
 **On Master Node:**
@@ -198,3 +220,4 @@ Credit:
 📘 Content Source: TrainWithShubham  
 👨‍🏫 Instructor: Shubham Londhe 
 🌐 Course: Kubernetes & Docker Training  
+
