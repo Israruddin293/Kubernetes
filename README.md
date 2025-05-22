@@ -267,7 +267,15 @@ sum (container_memory_usage_bytes{namespace="default"}) by (pod)
 
 sum(rate(container_network_receive_bytes_total{namespace="default"}[5m])) by (pod)
 sum(rate(container_network_transmit_bytes_total{namespace="default"}[5m])) by (pod)
+sum(kube_pod_container_status_ready) by (pod, namespace)
 
+# Combine with pod phase info
++ on(pod, namespace) group_left(phase)
+(
+  # Get current phase (using max to deduplicate)
+  max(kube_pod_status_phase) by (pod, namespace, phase)
+  == 1
+)
 ```
 
 
