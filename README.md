@@ -186,8 +186,6 @@ This guide explains how to install **Helm** (Kubernetes package manager) on Ubun
 
 - A working Ubuntu system
 - `curl` installed (you can install it using `sudo apt install curl`)
-- curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
 
 ---
 
@@ -195,27 +193,7 @@ This guide explains how to install **Helm** (Kubernetes package manager) on Ubun
 
 Run the following command in your terminal:
 
-```bash
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
-
-## Verify Cluster Connection
-
-**On Master Node:**
-
-```bash
-kubectl get nodes
-
-```
-
-   <img src="https://raw.githubusercontent.com/faizan35/kubernetes_cluster_with_kubeadm/main/Img/nodes-connected.png" width="70%">
-
----
-
-## Verify Container Status on Worker Node
-<img src="https://github.com/user-attachments/assets/c3d3732f-5c99-4a27-a574-86bc7ae5a933" width="70%">
-
-## Install HELM Method 2
+## Install HELM
 
 ```bash
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
