@@ -215,7 +215,7 @@ kubectl get nodes
 ## Verify Container Status on Worker Node
 <img src="https://github.com/user-attachments/assets/c3d3732f-5c99-4a27-a574-86bc7ae5a933" width="70%">
 
-## 10. Install HELM
+## Install HELM Method 2
 
 ```bash
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
@@ -225,7 +225,7 @@ chmod 700 get_helm.sh
 
 ---
 
-## 11. Install Kube Prometheus Stack
+## 1. Install Kube Prometheus Stack To monitor K8s Cluster
 
 ```bash
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -257,7 +257,7 @@ kubectl port-forward svc/kind-prometheus-grafana -n monitoring 31000:80 --addres
 
 ---
 
-## 12. Prometheus Queries
+## 2. Prometheus Queries
 
 ```bash
 sum (rate (container_cpu_usage_seconds_total{namespace="default"}[1m])) / sum (machine_cpu_cores) * 100
