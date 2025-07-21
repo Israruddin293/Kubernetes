@@ -112,40 +112,61 @@ sudo modprobe overlay
 sudo modprobe br_netfilter
 ---
 
-## 4. Set Sysctl Parameters: Helps with networking.
-    1. net.bridge.bridge-nf-call-iptables = 1
-    ### What it does:
-    Allows bridged IPv4 traffic to be passed through iptables firewall chains (e.g., FORWARD, NAT).
+## 4. Set Sysctl Parameters
 
-    ### Why needed:
-    Ensures Kubernetes can apply firewall/NAT rules to pod traffic (which uses Linux bridges).
-    Without this, pod-to-pod or pod-to-service communication may not work.
+These kernel parameters are essential for proper Kubernetes networking functionality.
 
-    **2. net.bridge.bridge-nf-call-ip6tables = 1**
-    **What it does:**
-    Same as above, but for IPv6 traffic through ip6tables.
+###  1. `net.bridge.bridge-nf-call-iptables = 1`
 
-    **Why needed:**
-    If your cluster or CNI uses IPv6, this allows proper firewalling/NAT for IPv6 pod traffic.
+**What it does:**  
+Allows bridged IPv4 traffic to be processed by `iptables` firewall chains (e.g., `FORWARD`, `NAT`).
 
-    **3. net.ipv4.ip_forward = 1**
-    **What it does:**
-    Enables Linux to forward IPv4 packets between interfaces.
+**Why it's needed:**  
+Kubernetes pod networking relies on Linux bridges.  
+This setting ensures firewall and NAT rules apply correctly to bridged traffic.  
+Without it, pod-to-pod and pod-to-service communication may fail.
 
-    **Why needed:**
-    Required for routing traffic between pods, nodes, and services.
-    Without this, Kubernetes cannot route packets across nodes (multi-node networking breaks).
-   ```bash
-    cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
-    net.bridge.bridge-nf-call-iptables  = 1
-    net.bridge.bridge-nf-call-ip6tables = 1
-    net.ipv4.ip_forward                 = 1
-    EOF
+---
 
-    sudo sysctl --system
-    lsmod | grep br_netfilter
-    lsmod | grep overlay
-    ```
+###  2. `net.bridge.bridge-nf-call-ip6tables = 1`
+
+**What it does:**  
+Same as above, but for IPv6 traffic via `ip6tables`.
+
+**Why it's needed:**  
+If your Kubernetes setup or CNI plugin supports IPv6, this enables correct firewalling/NAT of IPv6 pod traffic.
+
+---
+
+###  3. `net.ipv4.ip_forward = 1`
+
+**What it does:**  
+Enables Linux to forward IPv4 packets between network interfaces.
+
+**Why it's needed:**  
+Required for routing pod traffic between nodes and services.  
+Without this, multi-node communication (including services and DNS) will break.
+
+---
+
+###  Apply and Persist Sysctl Settings
+
+Run the following commands to set and persist the necessary kernel parameters:
+
+```bash
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+
+# Apply settings immediately
+sudo sysctl --system
+
+# Optional: Verify kernel modules
+lsmod | grep br_netfilter
+lsmod | grep overlay
+
 
 **## 5. Install Containerd:**
     ```bash
