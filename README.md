@@ -113,11 +113,11 @@ sudo modprobe br_netfilter
 ---
 
 ## 4. Set Sysctl Parameters: Helps with networking.
-    **1. net.bridge.bridge-nf-call-iptables = 1
-    What it does:**
+    1. net.bridge.bridge-nf-call-iptables = 1
+    ### What it does:
     Allows bridged IPv4 traffic to be passed through iptables firewall chains (e.g., FORWARD, NAT).
 
-    **Why needed:**
+    ### Why needed:
     Ensures Kubernetes can apply firewall/NAT rules to pod traffic (which uses Linux bridges).
     Without this, pod-to-pod or pod-to-service communication may not work.
 
@@ -147,7 +147,7 @@ sudo modprobe br_netfilter
     lsmod | grep overlay
     ```
 
-## 5. Install Containerd:
+**## 5. Install Containerd:**
     ```bash
     sudo apt-get update
     sudo apt-get install -y ca-certificates curl
