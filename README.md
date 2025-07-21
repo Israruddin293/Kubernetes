@@ -110,9 +110,9 @@ EOF
 # Load modules immediately
 sudo modprobe overlay
 sudo modprobe br_netfilter
+---
 
-
-5. **Set Sysctl Parameters**: Helps with networking.
+4. **Set Sysctl Parameters**: Helps with networking.
     **1. net.bridge.bridge-nf-call-iptables = 1
     What it does:**
     Allows bridged IPv4 traffic to be passed through iptables firewall chains (e.g., FORWARD, NAT).
@@ -147,7 +147,7 @@ sudo modprobe br_netfilter
     lsmod | grep overlay
     ```
 
-7. **Install Containerd**:
+5. **Install Containerd**:
     ```bash
     sudo apt-get update
     sudo apt-get install -y ca-certificates curl
@@ -166,7 +166,7 @@ sudo modprobe br_netfilter
     sudo systemctl status containerd
     ```
 
-8. **Install Kubernetes Components**:
+6. **Install Kubernetes Components**:
     ```bash
     sudo apt-get update
     sudo apt-get install -y apt-transport-https ca-certificates curl gpg
