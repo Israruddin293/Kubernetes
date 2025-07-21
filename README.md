@@ -70,32 +70,47 @@ This guide outlines the steps needed to set up a Kubernetes cluster using `kubea
     sudo sed -i '/ swap / s/^/#/' /etc/fstab
     ```
 
-3. **Load Necessary Kernel Modules**: Required for Kubernetes networking.
-    **overlay**
-    **What it is:**
-    overlay is a Linux kernel module used for the OverlayFS filesystem, which allows files and directories of multiple layers to be overlaid into one.
+## 3. Load Necessary Kernel Modules
 
-    **Why it's needed in Kubernetes:**
-    Container runtimes (like Docker or containerd) use OverlayFS to build container layers efficiently (e.g., base image + app layer).
-    Without it, containers can't be created or run, because they rely on this layered filesystem structure.
-    **br_netfilter**
-    **What it is:**
-    br_netfilter is a kernel module that enables the Linux kernel to apply iptables rules to bridged traffic (traffic that passes through a Linux bridge interface).
+To support container runtimes and Kubernetes networking, you must load some essential kernel modules.
 
-    **Why it's needed in Kubernetes:**
-    Kubernetes networking (via CNI plugins like Calico, Flannel, etc.) uses Linux bridges to connect pods.
-    This module ensures that firewall and NAT rules (managed by iptables) can apply to that pod-to-pod traffic.
-    Without this, Kubernetes networking won’t function properly, and DNS/service discovery may break.
+### overlay
 
-   ```bash
-    cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
-    overlay
-    br_netfilter
-    EOF
+**What it is:**  
+The `overlay` module enables the OverlayFS filesystem. It allows multiple filesystem layers to be overlaid into one.
 
-    sudo modprobe overlay
-    sudo modprobe br_netfilter
-    ```
+**Why it's needed in Kubernetes:**  
+Container runtimes such as Docker and containerd rely on OverlayFS to efficiently manage image layers (e.g., base image + app code).  
+Without this module, containers may fail to start because the layered filesystem won't function correctly.
+
+---
+
+### br_netfilter
+
+**What it is:**  
+The `br_netfilter` module allows iptables to inspect traffic flowing across Linux bridge interfaces.
+
+**Why it's needed in Kubernetes:**  
+Most CNI networking plugins (e.g., Calico, Flannel) rely on Linux bridges to connect pods.  
+This module ensures that iptables can apply firewall/NAT rules to pod-to-pod traffic over those bridges.  
+Without it, cluster networking, DNS resolution, and service discovery may break.
+
+---
+
+### Load and Persist Modules
+
+Run the following commands to load the required modules and ensure they're loaded on every reboot:
+
+```bash
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+
+# Load modules immediately
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
 
 5. **Set Sysctl Parameters**: Helps with networking.
     **1. net.bridge.bridge-nf-call-iptables = 1
