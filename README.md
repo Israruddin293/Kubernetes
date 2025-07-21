@@ -71,21 +71,21 @@ This guide outlines the steps needed to set up a Kubernetes cluster using `kubea
     ```
 
 3. **Load Necessary Kernel Modules**: Required for Kubernetes networking.
-**overlay**
-What it is:
-overlay is a Linux kernel module used for the OverlayFS filesystem, which allows files and directories of multiple layers to be overlaid into one.
+    **overlay**
+    **What it is:**
+    overlay is a Linux kernel module used for the OverlayFS filesystem, which allows files and directories of multiple layers to be overlaid into one.
 
-Why it's needed in Kubernetes:
-Container runtimes (like Docker or containerd) use OverlayFS to build container layers efficiently (e.g., base image + app layer).
-Without it, containers can't be created or run, because they rely on this layered filesystem structure.
-**br_netfilter**
-What it is:
-br_netfilter is a kernel module that enables the Linux kernel to apply iptables rules to bridged traffic (traffic that passes through a Linux bridge interface).
+    **Why it's needed in Kubernetes:**
+    Container runtimes (like Docker or containerd) use OverlayFS to build container layers efficiently (e.g., base image + app layer).
+    Without it, containers can't be created or run, because they rely on this layered filesystem structure.
+    **br_netfilter**
+    **What it is:**
+    br_netfilter is a kernel module that enables the Linux kernel to apply iptables rules to bridged traffic (traffic that passes through a Linux bridge interface).
 
-Why it's needed in Kubernetes:
-Kubernetes networking (via CNI plugins like Calico, Flannel, etc.) uses Linux bridges to connect pods.
-This module ensures that firewall and NAT rules (managed by iptables) can apply to that pod-to-pod traffic.
-Without this, Kubernetes networking won’t function properly, and DNS/service discovery may break.
+    **Why it's needed in Kubernetes:**
+    Kubernetes networking (via CNI plugins like Calico, Flannel, etc.) uses Linux bridges to connect pods.
+    This module ensures that firewall and NAT rules (managed by iptables) can apply to that pod-to-pod traffic.
+    Without this, Kubernetes networking won’t function properly, and DNS/service discovery may break.
 
    ```bash
     cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
