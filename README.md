@@ -98,26 +98,26 @@ This guide outlines the steps needed to set up a Kubernetes cluster using `kubea
     ```
 
 5. **Set Sysctl Parameters**: Helps with networking.
-    1. net.bridge.bridge-nf-call-iptables = 1
-    What it does:
+    **1. net.bridge.bridge-nf-call-iptables = 1
+    What it does:**
     Allows bridged IPv4 traffic to be passed through iptables firewall chains (e.g., FORWARD, NAT).
 
-    Why needed:
+    **Why needed:**
     Ensures Kubernetes can apply firewall/NAT rules to pod traffic (which uses Linux bridges).
     Without this, pod-to-pod or pod-to-service communication may not work.
 
-    2. net.bridge.bridge-nf-call-ip6tables = 1
-    What it does:
+    **2. net.bridge.bridge-nf-call-ip6tables = 1**
+    **What it does:**
     Same as above, but for IPv6 traffic through ip6tables.
 
-    Why needed:
+    **Why needed:**
     If your cluster or CNI uses IPv6, this allows proper firewalling/NAT for IPv6 pod traffic.
 
-    3. net.ipv4.ip_forward = 1
-    What it does:
+    **3. net.ipv4.ip_forward = 1**
+    **What it does:**
     Enables Linux to forward IPv4 packets between interfaces.
 
-    Why needed:
+    **Why needed:**
     Required for routing traffic between pods, nodes, and services.
     Without this, Kubernetes cannot route packets across nodes (multi-node networking breaks).
    ```bash
