@@ -70,7 +70,7 @@ This guide outlines the steps needed to set up a Kubernetes cluster using `kubea
     sudo sed -i '/ swap / s/^/#/' /etc/fstab
     ```
 
-## 3. Load Necessary Kernel Modules
+## 2. Load Necessary Kernel Modules
 
 To support container runtimes and Kubernetes networking, you must load some essential kernel modules.
 
@@ -112,7 +112,7 @@ sudo modprobe overlay
 sudo modprobe br_netfilter
 ---
 
-## 4. Set Sysctl Parameters
+## 3. Set Sysctl Parameters
 
 These kernel parameters are essential for proper Kubernetes networking functionality.
 
