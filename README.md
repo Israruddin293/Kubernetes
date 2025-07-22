@@ -168,7 +168,7 @@ lsmod | grep br_netfilter
 lsmod | grep overlay
 ```
 
-**## 5. Install Containerd:**
+## 5. Install Containerd:
 
     ```bash
     sudo apt-get update
