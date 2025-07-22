@@ -170,7 +170,6 @@ lsmod | grep overlay
 
 ## 5. Install Containerd:
 
-    ```bash
     sudo apt-get update
     sudo apt-get install -y ca-certificates curl
     sudo install -m 0755 -d /etc/apt/keyrings
@@ -186,7 +185,7 @@ lsmod | grep overlay
 
     sudo systemctl restart containerd
     sudo systemctl status containerd
-    ```
+
 
 ## 6. Install Kubernetes Components:
     ```bash
