@@ -188,7 +188,7 @@ lsmod | grep overlay
 
 
 ## 6. Install Kubernetes Components:
-    ```bash
+  
     sudo apt-get update
     sudo apt-get install -y apt-transport-https ca-certificates curl gpg
 
@@ -199,7 +199,6 @@ lsmod | grep overlay
     sudo apt-get update
     sudo apt-get install -y kubelet kubeadm kubectl
     sudo apt-mark hold kubelet kubeadm kubectl
-    ```
 
 ## Execute ONLY on the "Master" Node
 
